@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: hubble-rpc-consumer
+
+server:
+  port: 8888
