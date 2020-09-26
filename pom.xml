@@ -12,6 +12,7 @@
         <module>hubble-rpc-core</module>
         <module>hubble-rpc-provider</module>
         <module>hubble-rpc-consumer</module>
+        <module>hubble-spring-boot-starter</module>
     </modules>
 
     <properties>

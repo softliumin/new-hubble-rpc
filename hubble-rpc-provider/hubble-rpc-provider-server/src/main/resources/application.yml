@@ -1,3 +1,5 @@
 spring:
   application:
     name: hubble-rpc-provider
+server:
+  port: 8889

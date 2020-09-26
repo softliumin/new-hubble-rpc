@@ -2,6 +2,7 @@ package cc.zody.hubble.rpc.launcher;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author zody
  * @since 2020-09-11 18:07
  */
+@ImportResource({"classpath*:/spring-hubble.xml"})
 @SpringBootApplication
 public class HubbleProviderRpcApplication {
 

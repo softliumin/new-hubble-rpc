@@ -1,1 +1,1 @@
-http\://www.sharper.cc/hubble=cc.sharper.HubbleNamespaceHandler
+http\://www.sharper.cc/hubble=cc.zody.hubble.rpc.core.HubbleNamespaceHandler

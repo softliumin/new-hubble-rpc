@@ -7,6 +7,7 @@ import cc.zody.hubble.rpc.demo.provider.IProvider;
  */
 public class ProviderImpl implements IProvider {
 
+    @Override
     public String testMethod(String ss) {
         System.out.println(ss);
 

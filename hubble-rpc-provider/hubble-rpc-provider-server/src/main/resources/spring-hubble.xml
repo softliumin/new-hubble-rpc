@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:hubble="http://www.sharper.cc/hubble"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.sharper.cc/hubble http://www.sharper.cc/hubble/hubble.xsd">
+
+
+    <!-- hubble的注册分支 线上zk的地址 -->
+    <hubble:registry id="hubbleRegistry"  protocol="hubbleRegistry" address="sharper.cc" />
+
+
+    <!--  会从注册中心获取地址和端口 -->
+    <hubble:server id="hubbleServer" protocol="hubble" port="8080"/>
+
+    <!--  测试类-->
+    <bean id="providerImpl" class="cc.zody.hubble.rpc.demo.provider.impl.ProviderImpl"> </bean>
+    <bean id="providerImpl2" class="cc.zody.hubble.rpc.demo.provider.impl.ProviderImpl2"> </bean>
+
+    <hubble:provider id="firstRpc"  interface="cc.zody.hubble.rpc.demo.provider.IProvider" ref="providerImpl" alias="test001"/>
+    <hubble:provider id="firstRpc2" interface="cc.zody.hubble.rpc.demo.provider.IProvider2" ref="providerImpl2" alias="test002"/>
+
+</beans>
