@@ -5,8 +5,7 @@ import io.netty.buffer.ByteBuf;
 /**
  * @author zody
  */
-public interface Protocol
-{
+public interface Protocol {
 
     Object decode(ByteBuf datas, Class clazz);
 

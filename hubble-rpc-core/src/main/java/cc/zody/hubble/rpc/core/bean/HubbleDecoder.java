@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 解码
+ *
  * @author zody
  */
 public class HubbleDecoder extends ByteToMessageDecoder {
@@ -17,7 +18,8 @@ public class HubbleDecoder extends ByteToMessageDecoder {
         this.genericClass = genericClass;
     }
 
-    @Override public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    @Override
+    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         if (in.readableBytes() < 4) {
             return;
         }
@@ -33,7 +35,8 @@ public class HubbleDecoder extends ByteToMessageDecoder {
             in.resetReaderIndex();
             return;
         }
-        byte[] data = new byte[dataLength];//请求来的字节数组
+        //请求来的字节数组
+        byte[] data = new byte[dataLength];
         in.readBytes(data);
 
         Object obj = HubbleSerializationUtil.deserialize(data, genericClass);

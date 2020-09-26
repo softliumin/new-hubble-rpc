@@ -18,11 +18,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * -------
  * body
  * ------
+ *
  * @author zody
  */
 public class HubbleMessageHeader implements Cloneable {
 
-    private Integer length; // 总长度 包含magiccode + header + body
+    // 总长度 包含magiccode + header + body
+    private Integer length;
 
     private Short headerLength;
 
@@ -146,8 +148,8 @@ public class HubbleMessageHeader implements Cloneable {
     public void addHeadKey(HubbleConstant.HeadKey key, Object value) {
         if (!key.getType().isInstance(value)) { // 检查类型
             throw new IllegalArgumentException(
-                "type mismatch of key:" + key.getNum() + ", expect:" + key.getType().getName() + ", actual:" + value
-                    .getClass().getName());
+                    "type mismatch of key:" + key.getNum() + ", expect:" + key.getType().getName() + ", actual:" + value
+                            .getClass().getName());
         }
         keysMap.put(key.getNum(), value);
     }
@@ -171,7 +173,8 @@ public class HubbleMessageHeader implements Cloneable {
         return mapSize;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (!(o instanceof HubbleMessageHeader))
@@ -197,7 +200,8 @@ public class HubbleMessageHeader implements Cloneable {
         return true;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = msgId;
         result = 31 * result + (length != null ? length.hashCode() : 0);
         result = 31 * result + codecType;
@@ -208,25 +212,28 @@ public class HubbleMessageHeader implements Cloneable {
         return result;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         String keymapStr = "";
         for (Map.Entry<Byte, Object> entry : keysMap.entrySet()) {
             keymapStr = keymapStr + " " + entry.getKey().toString() + " : " + entry.getValue().toString();
         }
 
         return "MessageHeader{" + "msgId=" + msgId + ", length=" + length + ", codecType=" + codecType + ", msgType="
-            + msgType + ", protocolType=" + protocolType + ", compressType=" + compressType + ", headerLength="
-            + headerLength + ", keysMap=" + keymapStr + "}";
+                + msgType + ", protocolType=" + protocolType + ", compressType=" + compressType + ", headerLength="
+                + headerLength + ", keysMap=" + keymapStr + "}";
     }
 
     /**
      * 克隆后和整体原来不是一个对象，
      * 属性相同，修改当前属性不会改变原来的
      * map和原来是一个对象，修改当前map也会改原来的
+     *
      * @return
      * @throws CloneNotSupportedException
      */
-    @Override public HubbleMessageHeader clone() {
+    @Override
+    public HubbleMessageHeader clone() {
         HubbleMessageHeader header = null;
         try {
             header = (HubbleMessageHeader) super.clone();

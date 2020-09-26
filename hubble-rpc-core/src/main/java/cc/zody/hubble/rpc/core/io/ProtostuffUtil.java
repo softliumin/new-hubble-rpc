@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  使用Protostuff 进行序列化
+ * 使用Protostuff 进行序列化
+ *
  * @author zody
  */
-public class ProtostuffUtil
-{
-    private  static Map<Class<?> ,Schema<?>> cacheScheme = new ConcurrentHashMap<Class<?> ,Schema<?>>();
+public class ProtostuffUtil {
+    private static Map<Class<?>, Schema<?>> cacheScheme = new ConcurrentHashMap<Class<?>, Schema<?>>();
 
     private static Objenesis objenesis = new ObjenesisStd(true);
 
@@ -25,14 +25,11 @@ public class ProtostuffUtil
 
 
     @SuppressWarnings("unchecked")
-    public static <T> Schema<T> getChema(Class<T> cls)
-    {
-        Schema<T> schema =(Schema<T>) cacheScheme.get(cls);
-        if (schema==null)
-        {
+    public static <T> Schema<T> getChema(Class<T> cls) {
+        Schema<T> schema = (Schema<T>) cacheScheme.get(cls);
+        if (schema == null) {
             schema = RuntimeSchema.createFrom(cls);//
-            if(schema!=null)
-            {
+            if (schema != null) {
                 cacheScheme.put(cls, schema);//放到schema缓存map中
             }
         }
@@ -42,20 +39,16 @@ public class ProtostuffUtil
 
 
     @SuppressWarnings("unchecked")
-    public static <T> byte[] serialize(T obj)
-    {
-        Class<T> cls =(Class<T>) obj.getClass();
-        LinkedBuffer  buffer= LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);//声明空间
+    public static <T> byte[] serialize(T obj) {
+        Class<T> cls = (Class<T>) obj.getClass();
+        LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);//声明空间
 
-        try
-        {
+        try {
             Schema<T> schema = getChema(cls);
-            return ProtostuffIOUtil.toByteArray(obj,schema,buffer);
-        }catch (Exception e)
-        {
-            throw new IllegalStateException(e.getMessage(),e);
-        }finally
-        {
+            return ProtostuffIOUtil.toByteArray(obj, schema, buffer);
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        } finally {
             buffer.clear();
         }
 
@@ -63,23 +56,21 @@ public class ProtostuffUtil
 
     /**
      * 反序列化
+     *
      * @param data
      * @param cls
      * @param <M>
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <M> M deserialize(byte[] data,Class<M> cls)
-    {
-        try
-        {
+    public static <M> M deserialize(byte[] data, Class<M> cls) {
+        try {
             M message = (M) objenesis.newInstance(cls);
             Schema<M> schema = getChema(cls);
-            ProtostuffIOUtil.mergeFrom(data,message,schema);
+            ProtostuffIOUtil.mergeFrom(data, message, schema);
             return message;
-        }catch (Exception e)
-        {
-            throw new IllegalStateException(e.getMessage(),e);
+        } catch (Exception e) {
+            throw new IllegalStateException(e.getMessage(), e);
         }
     }
 }

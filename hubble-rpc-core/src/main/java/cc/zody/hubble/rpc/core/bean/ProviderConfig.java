@@ -11,8 +11,8 @@ public class ProviderConfig extends AbstractInterfaceConfig implements Serializa
     private static final long serialVersionUID = -2910502986608678372L;
 
     public synchronized void create() throws InitErrorException {
-        if (true)//直接加载，不延迟  以后可以配置
-        {
+        //直接加载，不延迟  以后可以配置
+        if (true) {
 
         }
     }

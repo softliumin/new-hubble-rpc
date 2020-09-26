@@ -5,27 +5,27 @@ import java.util.Map;
 /**
  * @author zody
  */
-public class HubbleRequest extends  BaseMessage
-{
+public class HubbleRequest extends BaseMessage {
     private String requestId;
 
     private String className;
 
     private String methodName;
 
-    private Class<?>[] parameterTypes; // 参数类型
+    // 参数类型
+    private Class<?>[] parameterTypes;
 
-    private Object[] parameters; // 参数
+    // 参数
+    private Object[] parameters;
 
-    private Map<String ,String> args;// 附带信息
+    // 附带信息
+    private Map<String, String> args;
 
-    public Map<String, String> getArgs()
-    {
+    public Map<String, String> getArgs() {
         return args;
     }
 
-    public void setArgs(Map<String, String> args)
-    {
+    public void setArgs(Map<String, String> args) {
         this.args = args;
     }
 

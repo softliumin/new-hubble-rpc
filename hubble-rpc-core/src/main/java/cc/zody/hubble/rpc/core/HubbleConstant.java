@@ -2,6 +2,7 @@ package cc.zody.hubble.rpc.core;
 
 /**
  * Hubble 的常量表
+ *
  * @author zody
  */
 public class HubbleConstant {

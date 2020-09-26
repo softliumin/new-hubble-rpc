@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的序列化工具仅仅是针对protostuff 其他的以后改造
+ *
  * @author zody
  */
 public class HubbleSerializationUtil {

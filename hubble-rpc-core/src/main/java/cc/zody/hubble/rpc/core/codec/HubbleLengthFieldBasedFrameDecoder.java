@@ -8,13 +8,12 @@ import java.nio.ByteOrder;
 import java.util.List;
 
 /**
- *  Hubble实现的自己的FieldBasedFrameDecoder  解决半包读写
- * @author zody
+ * Hubble实现的自己的FieldBasedFrameDecoder  解决半包读写
  *
- * @see  io.netty.handler.codec.LengthFieldBasedFrameDecoder
+ * @author zody
+ * @see io.netty.handler.codec.LengthFieldBasedFrameDecoder
  */
-public class HubbleLengthFieldBasedFrameDecoder extends ByteToMessageDecoder
-{
+public class HubbleLengthFieldBasedFrameDecoder extends ByteToMessageDecoder {
 
 
     private final ByteOrder byteOrder;
@@ -103,14 +102,14 @@ public class HubbleLengthFieldBasedFrameDecoder extends ByteToMessageDecoder
 
     /**
      * 解码
+     *
      * @param ctx
      * @param in
      * @param out
      * @throws Exception
      */
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception
-    {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 
     }
 }

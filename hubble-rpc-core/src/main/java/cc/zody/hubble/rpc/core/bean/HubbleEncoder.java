@@ -23,7 +23,8 @@ public class HubbleEncoder  extends MessageToByteEncoder
         if (genericClass.isInstance(in))
         {
             byte[] data = HubbleSerializationUtil.serialize(in);
-            out.writeInt(110); // 测试请求头的解析
+            // 测试请求头的解析
+            out.writeInt(110);
             out.writeInt(data.length);
             out.writeBytes(data);
         }else

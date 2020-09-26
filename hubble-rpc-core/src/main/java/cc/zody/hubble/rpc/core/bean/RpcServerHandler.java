@@ -12,8 +12,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * @author zody
  */
-public class RpcServerHandler  extends SimpleChannelInboundHandler<HubbleRequest>
-{
+public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServerHandler.class);
 
     private transient ApplicationContext applicationContext;
@@ -25,6 +24,7 @@ public class RpcServerHandler  extends SimpleChannelInboundHandler<HubbleRequest
 
     /**
      * 接受请求来的消息
+     *
      * @param ctx
      * @param request
      * @throws Exception
@@ -43,8 +43,7 @@ public class RpcServerHandler  extends SimpleChannelInboundHandler<HubbleRequest
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);//这里的作用是 TODO
     }
 
-    private Object handle(HubbleRequest request) throws Throwable
-    {
+    private Object handle(HubbleRequest request) throws Throwable {
         String className = request.getClassName();
         Object serviceBean = applicationContext.getBean(ContainProvider.allProvider.get(className));
 //        Object serviceBean = tem.getRealRef();

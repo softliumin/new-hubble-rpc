@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 
 /**
  * 解析调用者  半成品
+ *
  * @author zody
  */
 public class HubbleConsumerParser implements BeanDefinitionParser {
@@ -24,7 +25,8 @@ public class HubbleConsumerParser implements BeanDefinitionParser {
         beanDefinition.getPropertyValues().add("id", id);
         beanDefinition.getPropertyValues().add("inter", inter);
         beanDefinition.getPropertyValues().add("alias", alias);
-        parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);//去容器注册bean
+        //去容器注册bean
+        parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
 
         return beanDefinition;
     }
