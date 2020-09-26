@@ -1,5 +1,6 @@
 package cc.zody.hubble.rpc.core.bean;
 
+import cc.zody.hubble.rpc.core.NetUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -66,26 +67,21 @@ public class HubbleServer implements ApplicationContextAware, InitializingBean {
                                     .addLast(new RpcServerHandler(applicationContext));
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
-
-            //ip地址   NetUtils.getLocalHost()
-            String host = "localhost";
+            String host = NetUtils.getIpAdd();
             int port = Integer.parseInt("8080");
 
             //绑定端口，同步等待成功
             ChannelFuture future = bootstrap.bind(new InetSocketAddress(port)).sync();//.sync()
 
-            ChannelFuture channelFuture = future.addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    if (future.isSuccess()) {
-                        log.info("ok`````");
-                    } else {
-                        log.info("end``````");
-                        workerGroup.shutdownGracefully();
-                        bossGroup.shutdownGracefully();
-                    }
-
+            ChannelFuture channelFuture = future.addListener((ChannelFutureListener) future1 -> {
+                if (future1.isSuccess()) {
+                    log.info("ok`````");
+                } else {
+                    log.info("end``````");
+                    workerGroup.shutdownGracefully();
+                    bossGroup.shutdownGracefully();
                 }
+
             });
 
             try {
@@ -93,12 +89,11 @@ public class HubbleServer implements ApplicationContextAware, InitializingBean {
                 if (channelFuture.isSuccess()) {
                     log.info("ok了----------------");
                 }
-
             } catch (InterruptedException e) {
                 log.info("有异常", e);
             }
 
-            log.info("server启动了 {}", port);
+            log.info("Hubble-rpc server started at port:{}", port);
             //等待服务端监听端口关闭
             //future.channel().closeFuture().sync();//.sync()
         } catch (Exception e) {

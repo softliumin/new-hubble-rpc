@@ -10,19 +10,48 @@ import java.util.Enumeration;
 /**
  * @author zody
  */
-public class NetUtils
-{
+public class NetUtils {
     private final static Logger logger = LoggerFactory.getLogger(NetUtils.class);
 
     /**
      * 得到本机IPv4地址
      *
      * @return ip地址
-     *
      */
+    @Deprecated
     public static String getLocalHost() {
         InetAddress address = getLocalAddress();
         return address == null ? null : address.getHostAddress();
+    }
+
+
+    public static String getIpAdd() {
+        String ip = "";
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                String name = intf.getName();
+                if (!name.contains("docker") && !name.contains("lo")) {
+                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                        //获得IP
+                        InetAddress inetAddress = enumIpAddr.nextElement();
+                        if (!inetAddress.isLoopbackAddress()) {
+                            String ipaddress = inetAddress.getHostAddress().toString();
+                            if (!ipaddress.contains("::") && !ipaddress.contains("0:0:") && !ipaddress.contains("fe80")) {
+                                if (!"127.0.0.1".equals(ip)) {
+                                    ip = ipaddress;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ip;
+        } catch (Exception e) {
+            logger.error("Get ip has_error, will use 127.0.0.1 instead.", e);
+            return "127.0.0.1";
+        }
+
     }
 
     public static InetAddress getLocalAddress() {
@@ -35,6 +64,7 @@ public class NetUtils
         } catch (Throwable e) {
             logger.warn("Error when retriving ip address: " + e.getMessage(), e);
         }
+
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             if (interfaces != null) {
@@ -70,12 +100,10 @@ public class NetUtils
     /**
      * 是否合法地址（非本地，非默认的IPv4地址）
      *
-     * @param address
-     *         InetAddress
+     * @param address InetAddress
      * @return 是否合法
      */
-    private static boolean isValidAddress(InetAddress address)
-    {
+    private static boolean isValidAddress(InetAddress address) {
 //        if (address == null || address.isLoopbackAddress())
 //            return false;
 //        String name = address.getHostAddress();
@@ -84,7 +112,12 @@ public class NetUtils
 //                && !isLocalHost(name)
 //                && isIPv4Host(name));
 
-        return  true;
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getLocalHost());
+        System.out.println(getIpAdd());
     }
 
 

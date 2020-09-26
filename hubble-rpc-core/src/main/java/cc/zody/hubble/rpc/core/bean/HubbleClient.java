@@ -41,7 +41,12 @@ public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
         }
     }
 
-    //发送请求信息
+    /**
+     * 发送请求信息
+     * @param request
+     * @return
+     * @throws Exception
+     */
     public HubbleResponse send(HubbleRequest request) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
@@ -56,8 +61,9 @@ public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
                 }
             }).option(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture future = bootstrap.connect(host, port).sync();//
-            future.channel().writeAndFlush(request).sync();//发送请求信息去目标地方
+            ChannelFuture future = bootstrap.connect(host, port).sync();
+            //发送请求信息去目标地方
+            future.channel().writeAndFlush(request).sync();
 
             synchronized (obj) {
                 obj.wait(); // 未收到响应，使线程等待

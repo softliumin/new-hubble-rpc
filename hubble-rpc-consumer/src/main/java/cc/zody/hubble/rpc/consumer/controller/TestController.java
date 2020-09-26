@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
  * @author zody
@@ -18,7 +19,7 @@ public class TestController {
 
     @RequestMapping("/demo")
     public String test() {
-        String result =  iProvider.testMethod("hello");
+        String result =  iProvider.testMethod(Arrays.asList("hello"));
         return result;
     }
 }

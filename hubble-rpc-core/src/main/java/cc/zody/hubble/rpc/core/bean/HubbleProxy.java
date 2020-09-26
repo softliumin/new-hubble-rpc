@@ -1,5 +1,7 @@
 package cc.zody.hubble.rpc.core.bean;
 
+import cc.zody.hubble.rpc.core.NetUtils;
+
 import java.lang.reflect.Proxy;
 import java.util.UUID;
 
@@ -37,12 +39,14 @@ public class HubbleProxy {
                     if (serviceDiscovery != null) {
                         //serverAddress = serviceDiscovery.discover(interfaceClass.getName()); // 发现服务
                     }
-                    String host = "localhost";
+                    String host = NetUtils.getIpAdd();
                     int port = 8080;
-                    HubbleClient client = new HubbleClient(host, port); // 初始化 RPC 客户端 其实可以在本地留存一份信息
-                    HubbleResponse response = client.send(request); // 通过 RPC 客户端发送 RPC 请求并获取 RPC 响应
-                    if (response.getError() != null)//发现异常
-                    {
+                    // 初始化 RPC 客户端 其实可以在本地留存一份信息
+                    HubbleClient client = new HubbleClient(host, port);
+                    // 通过 RPC 客户端发送 RPC 请求并获取 RPC 响应
+                    HubbleResponse response = client.send(request);
+                    //发现异常
+                    if (response.getError() != null) {
                         throw response.getError();
                     } else {
                         return response.getResult();

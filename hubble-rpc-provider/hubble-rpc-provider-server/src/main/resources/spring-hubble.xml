@@ -8,17 +8,15 @@
 
 
     <!-- hubble的注册分支 线上zk的地址 -->
-    <hubble:registry id="hubbleRegistry"  protocol="hubbleRegistry" address="sharper.cc" />
+    <hubble:registry id="hubbleRegistry" protocol="hubbleRegistry" address="sharper.cc"/>
 
 
     <!--  会从注册中心获取地址和端口 -->
     <hubble:server id="hubbleServer" protocol="hubble" port="8080"/>
 
     <!--  测试类-->
-    <bean id="providerImpl" class="cc.zody.hubble.rpc.demo.provider.impl.ProviderImpl"> </bean>
-    <bean id="providerImpl2" class="cc.zody.hubble.rpc.demo.provider.impl.ProviderImpl2"> </bean>
+    <bean id="providerImpl" class="cc.zody.hubble.rpc.demo.provider.impl.ProviderImpl"></bean>
 
-    <hubble:provider id="firstRpc"  interface="cc.zody.hubble.rpc.demo.provider.IProvider" ref="providerImpl" alias="test001"/>
-    <hubble:provider id="firstRpc2" interface="cc.zody.hubble.rpc.demo.provider.IProvider2" ref="providerImpl2" alias="test002"/>
+    <hubble:provider id="firstRpc" interface="cc.zody.hubble.rpc.demo.provider.IProvider" ref="providerImpl" alias="test001"/>
 
 </beans>

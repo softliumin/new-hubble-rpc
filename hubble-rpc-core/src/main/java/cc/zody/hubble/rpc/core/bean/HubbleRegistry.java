@@ -27,7 +27,7 @@ public class HubbleRegistry implements InitializingBean, DisposableBean, Seriali
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //System.out.println(1111);
+        System.out.println(1111);
     }
 
     public String getId() {

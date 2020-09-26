@@ -1,5 +1,7 @@
 package cc.zody.hubble.rpc.demo.provider;
 
+import java.util.List;
+
 /**
  *
  * @author  zody
@@ -10,5 +12,5 @@ public interface IProvider {
      * @param ss
      * @return
      */
-     String testMethod(String ss);
+     String testMethod(List<String> ss);
 }
