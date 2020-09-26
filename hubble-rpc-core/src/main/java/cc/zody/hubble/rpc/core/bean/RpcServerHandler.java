@@ -1,5 +1,6 @@
 package cc.zody.hubble.rpc.core.bean;
 
+import cc.zody.hubble.rpc.core.pool.ExecutorPool;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -9,11 +10,13 @@ import org.springframework.cglib.reflect.FastClass;
 import org.springframework.cglib.reflect.FastMethod;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * @author zody
  */
 public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RpcServerHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(RpcServerHandler.class);
 
     private transient ApplicationContext applicationContext;
 
@@ -31,19 +34,29 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest>
      */
     @Override
     public void channelRead0(final ChannelHandlerContext ctx, HubbleRequest request) throws Exception {
-        System.out.println("业务");
+        log.info("request come");
         HubbleResponse response = new HubbleResponse();
         response.setRequestId(request.getRequestId());
         try {
-            Object result = handle(request);
-            response.setResult(result);
+            ExecutorPool.BIZ_EXECUTOR.submit(() -> {
+                try {
+                    log.error(Thread.currentThread().getName()+":业务线程开始处理:");
+                    Object result = handle(request);
+                    response.setResult(result);
+                    log.error(Thread.currentThread().getName()+":业务线程执行完毕:");
+                    //这里的作用是 TODO
+                    ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+                } catch (Exception e) {
+                    log.error("执行业务逻辑中发生异常:", e);
+                }
+            });
         } catch (Throwable t) {
             response.setError(t);
         }
-        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);//这里的作用是 TODO
+
     }
 
-    private Object handle(HubbleRequest request) throws Throwable {
+    private Object handle(HubbleRequest request) throws InvocationTargetException {
         String className = request.getClassName();
         Object serviceBean = applicationContext.getBean(ContainProvider.allProvider.get(className));
 //        Object serviceBean = tem.getRealRef();
@@ -63,7 +76,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest>
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        LOGGER.error("server caught exception", cause);
+        log.error("server caught exception", cause);
         ctx.close();
     }
 }

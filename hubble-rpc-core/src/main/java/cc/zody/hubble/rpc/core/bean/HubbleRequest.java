@@ -6,10 +6,19 @@ import java.util.Map;
  * @author zody
  */
 public class HubbleRequest extends BaseMessage {
+    /**
+     *
+     */
     private String requestId;
 
+    /**
+     *
+     */
     private String className;
 
+    /**
+     *
+     */
     private String methodName;
 
     // 参数类型
