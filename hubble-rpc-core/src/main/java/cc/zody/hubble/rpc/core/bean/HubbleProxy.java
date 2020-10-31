@@ -30,7 +30,7 @@ public class HubbleProxy {
                 new Class<?>[]{interfaceClass},
                 (proxy, method, args) -> {
                     //这里是发现服务和发送请求和返回信息
-                    HubbleRequest request = new HubbleRequest(); // 创建并初始化 RPC 请求
+                    HubbleRpcRequest request = new HubbleRpcRequest(); // 创建并初始化 RPC 请求
                     request.setRequestId(UUID.randomUUID().toString());//
                     request.setClassName(method.getDeclaringClass().getName());// 类名
                     request.setMethodName(method.getName());//方法名
@@ -44,7 +44,7 @@ public class HubbleProxy {
                     // 初始化 RPC 客户端 其实可以在本地留存一份信息
                     HubbleClient client = new HubbleClient(host, port);
                     // 通过 RPC 客户端发送 RPC 请求并获取 RPC 响应
-                    HubbleResponse response = client.send(request);
+                    HubbleRpcResponse response = client.send(request);
                     //发现异常
                     if (response.getError() != null) {
                         throw response.getError();

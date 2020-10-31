@@ -17,14 +17,14 @@ import org.slf4j.LoggerFactory;
  * 客户端Channel
  * @author zody
  */
-public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
+public class HubbleClient extends SimpleChannelInboundHandler<HubbleRpcResponse> {
     private static final Logger log = LoggerFactory.getLogger(HubbleClient.class);
 
     private String host;
 
     private int port;
 
-    private HubbleResponse response;
+    private HubbleRpcResponse response;
 
     private final Object obj = new Object();
 
@@ -34,7 +34,7 @@ public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
 
     }
 
-    @Override protected void channelRead0(ChannelHandlerContext ctx, HubbleResponse msg) throws Exception {
+    @Override protected void channelRead0(ChannelHandlerContext ctx, HubbleRpcResponse msg) throws Exception {
         this.response = msg;
         synchronized (obj) {
             obj.notifyAll(); // 收到响应，唤醒线程
@@ -47,7 +47,7 @@ public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
      * @return
      * @throws Exception
      */
-    public HubbleResponse send(HubbleRequest request) throws Exception {
+    public HubbleRpcResponse send(HubbleRpcRequest request) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
@@ -55,8 +55,8 @@ public class HubbleClient extends SimpleChannelInboundHandler<HubbleResponse> {
                 @Override public void initChannel(SocketChannel channel) throws Exception {
                     channel.pipeline()
                         //.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,-4,4))// 解码 1：半包读写问题 2： 私有化协议栈解析
-                        .addLast(new HubbleEncoder(HubbleRequest.class)) //HubbleRequest  编码  BaseMessage
-                        .addLast(new HubbleDecoder(HubbleResponse.class)) //HubbleResponse  解码
+                        .addLast(new HubbleEncoder(HubbleRpcRequest.class)) //HubbleRequest  编码  BaseMessage
+                        .addLast(new HubbleDecoder(HubbleRpcResponse.class)) //HubbleResponse  解码
                         .addLast(HubbleClient.this); //
                 }
             }).option(ChannelOption.SO_KEEPALIVE, true);

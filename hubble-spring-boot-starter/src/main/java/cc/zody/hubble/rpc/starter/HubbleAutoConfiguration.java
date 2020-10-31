@@ -23,7 +23,6 @@ public class HubbleAutoConfiguration {
     @ConditionalOnMissingBean
     public HubbleServer hubbleServer() {
         HubbleServer hubbleServer = new HubbleServer();
-        System.out.println(1111);
         return hubbleServer;
     }
 }

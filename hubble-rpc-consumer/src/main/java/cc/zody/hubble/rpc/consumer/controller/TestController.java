@@ -17,9 +17,13 @@ public class TestController {
     @Resource
     IProvider iProvider;
 
+
+//    @HubbleConsumer
+//    IProvider iProvider;
+
     @RequestMapping("/demo")
     public String test() {
-        String result =  iProvider.testMethod(Arrays.asList("hello"));
+        String result = iProvider.testMethod(Arrays.asList("hello"));
         return result;
     }
 }

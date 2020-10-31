@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author zody
  */
-public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest> {
+public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRpcRequest> {
     private static final Logger log = LoggerFactory.getLogger(RpcServerHandler.class);
 
     private transient ApplicationContext applicationContext;
@@ -33,17 +33,17 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest>
      * @throws Exception
      */
     @Override
-    public void channelRead0(final ChannelHandlerContext ctx, HubbleRequest request) throws Exception {
+    public void channelRead0(final ChannelHandlerContext ctx, HubbleRpcRequest request) throws Exception {
         log.info("request come");
-        HubbleResponse response = new HubbleResponse();
+        HubbleRpcResponse response = new HubbleRpcResponse();
         response.setRequestId(request.getRequestId());
         try {
             ExecutorPool.BIZ_EXECUTOR.submit(() -> {
                 try {
-                    log.error(Thread.currentThread().getName()+":业务线程开始处理:");
+//                    log.info(Thread.currentThread().getName()+":业务线程开始处理:");
                     Object result = handle(request);
                     response.setResult(result);
-                    log.error(Thread.currentThread().getName()+":业务线程执行完毕:");
+//                    log.info(Thread.currentThread().getName()+":业务线程执行完毕:");
                     //这里的作用是 TODO
                     ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
                 } catch (Exception e) {
@@ -56,7 +56,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<HubbleRequest>
 
     }
 
-    private Object handle(HubbleRequest request) throws InvocationTargetException {
+    private Object handle(HubbleRpcRequest request) throws InvocationTargetException {
         String className = request.getClassName();
         Object serviceBean = applicationContext.getBean(ContainProvider.allProvider.get(className));
 //        Object serviceBean = tem.getRealRef();

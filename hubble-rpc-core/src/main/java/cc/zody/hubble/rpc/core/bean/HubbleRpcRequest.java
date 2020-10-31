@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * @author zody
  */
-public class HubbleRequest extends BaseMessage {
+public class HubbleRpcRequest extends BaseMessage {
     /**
      *
      */
@@ -21,13 +21,19 @@ public class HubbleRequest extends BaseMessage {
      */
     private String methodName;
 
-    // 参数类型
+    /**
+     * 参数类型
+     */
     private Class<?>[] parameterTypes;
 
-    // 参数
+    /**
+     * 参数
+     */
     private Object[] parameters;
 
-    // 附带信息
+    /**
+     * 附带信息
+     */
     private Map<String, String> args;
 
     public Map<String, String> getArgs() {

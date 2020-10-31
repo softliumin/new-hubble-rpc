@@ -11,10 +11,11 @@ import org.springframework.context.ApplicationContextAware;
 
 /**
  * Hubble的服务调用者  粗糙的解析
+ *
  * @author zody
  */
 public class HubbleConsumer
-    implements InitializingBean, FactoryBean, ApplicationContextAware, DisposableBean, BeanNameAware {
+        implements InitializingBean, FactoryBean, ApplicationContextAware, DisposableBean, BeanNameAware {
     private static final long serialVersionUID = -2508213661321690225L;
 
     private transient ApplicationContext applicationContext;
@@ -51,16 +52,23 @@ public class HubbleConsumer
         this.inter = inter;
     }
 
-    @Override public void setBeanName(String s) {
+    @Override
+    public void setBeanName(String s) {
         this.beanName = s;
     }
 
-    @Override public void destroy() throws Exception {
+    @Override
+    public void destroy() throws Exception {
 
     }
 
-    //返回代理类
-    @Override public Object getObject() throws Exception {
+    /**
+     * 返回代理类
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Object getObject() throws Exception {
         HubbleRegistry register = this.applicationContext.getBean(HubbleRegistry.class);
         String address = register.getAddress();
         HubbleProxy proxy = new HubbleProxy(address);
@@ -68,7 +76,8 @@ public class HubbleConsumer
         return proxy.create(Class.forName(inter));
     }
 
-    @Override public Class<?> getObjectType() {
+    @Override
+    public Class<?> getObjectType() {
         try {
             return Class.forName(inter);
         } catch (Exception e) {
@@ -76,15 +85,18 @@ public class HubbleConsumer
         }
     }
 
-    @Override public boolean isSingleton() {
+    @Override
+    public boolean isSingleton() {
         return true;
     }
 
-    @Override public void afterPropertiesSet() throws Exception {
+    @Override
+    public void afterPropertiesSet() throws Exception {
 
     }
 
-    @Override public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
@@ -96,6 +108,7 @@ public class HubbleConsumer
 
     /**
      * 生成代理类
+     *
      * @return
      * @throws InitErrorException
      */

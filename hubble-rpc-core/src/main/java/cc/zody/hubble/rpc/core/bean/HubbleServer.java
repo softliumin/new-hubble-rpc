@@ -62,8 +62,8 @@ public class HubbleServer implements ApplicationContextAware, InitializingBean {
                         public void initChannel(SocketChannel channel) throws Exception {
                             channel.pipeline()
                                     //.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4,-4,4))// 解码 1：半包读写问题 2： 私有化协议栈解析
-                                    .addLast(new HubbleDecoder(HubbleRequest.class))//HubbleRequest
-                                    .addLast(new HubbleEncoder(HubbleResponse.class))//HubbleResponse// 编码
+                                    .addLast(new HubbleDecoder(HubbleRpcRequest.class))//HubbleRequest
+                                    .addLast(new HubbleEncoder(HubbleRpcResponse.class))//HubbleResponse// 编码
                                     .addLast(new RpcServerHandler(applicationContext));
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);

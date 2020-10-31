@@ -1,10 +1,10 @@
 package cc.zody.hubble.rpc.core.bean;
 
 /**
- * hubble的返回对象
+ * hubble rpc 的返回对象
  * @author zody
  */
-public class HubbleResponse extends BaseMessage {
+public class HubbleRpcResponse extends BaseMessage {
     private String requestId;
 
     private Throwable error;

@@ -18,6 +18,12 @@
             <groupId>cc.zody</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <artifactId>hubble-spring-boot-starter</artifactId>-->
+<!--            <groupId>cc.zody</groupId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <artifactId>hubble-rpc-core</artifactId>
             <groupId>cc.zody</groupId>

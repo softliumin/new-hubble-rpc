@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration
 @ConditionalOnBean(annotation = EnableHubbleConfiguration.class)
-@AutoConfigureAfter(HubbleAutoConfiguration.class)
+//@AutoConfigureAfter(HubbleAutoConfiguration.class)
 @EnableConfigurationProperties(HubbleProperties.class)
 public class HubbleConsumerAutoConfiguration {
 
