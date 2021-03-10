@@ -10,7 +10,6 @@ import java.util.Arrays;
 /**
  * @author zody
  */
-@RequestMapping("/test")
 @RestController
 public class TestController {
 
@@ -23,7 +22,14 @@ public class TestController {
 
     @RequestMapping("/demo")
     public String test() {
-        String result = iProvider.testMethod(Arrays.asList("hello"));
-        return result;
+//        String result = iProvider.testMethod(Arrays.asList("hello"));
+//        return result;
+        return null;
+    }
+
+
+    @RequestMapping("/")
+    public String test001() {
+        return "嘉佳爱胖胖！很爱！";
     }
 }
